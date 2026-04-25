@@ -1,0 +1,20 @@
+{
+  "name": "roda-e-sabor-restaurante-gamificado",
+  "version": "1.0.0",
+  "description": "Sistema web Roda & Sabor com restaurante, pontos, cupons, roleta gamificada, checkout e PostgreSQL.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:sync": "node src/database/sync.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

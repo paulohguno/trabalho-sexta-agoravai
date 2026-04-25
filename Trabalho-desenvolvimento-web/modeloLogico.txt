@@ -1,0 +1,20 @@
+Modelo lógico resumido - Roda & Sabor
+
+USUARIOS(id, id_funcao, nome, email, senha_hash, cpf, telefone, pontos, created_at, updated_at)
+ENDERECOS(id, usuario_id, logradouro, numero, bairro, complemento, referencia, created_at, updated_at)
+CARTOES_CREDITO(id, usuario_id, numero_cartao, nome_cartao, data_validade, cvv, created_at, updated_at)
+ITENS_MENU(id, nome, descricao, preco, categoria, url_imagem, ativo, created_at, updated_at)
+PREMIOS_ROLETA(id, nome, descricao, desconto_percentual, probabilidade_vitoria, cor, ativo, created_at, updated_at)
+PREMIOS_USUARIO(id, usuario_id, premio_id, codigo, desconto_percentual, resgatado, resgatado_em, expira_em, created_at, updated_at)
+PEDIDOS(id, usuario_id, cupom_id, valor_bruto, valor_desconto, preco_total, pontos_gerados, situacao, created_at, updated_at)
+ITENS_PEDIDO(id, pedido_id, item_menu_id, quantidade, preco_unitario, subtotal, created_at, updated_at)
+PAGAMENTOS(id, pedido_id, metodo, valor, situacao, codigo_pix, created_at, updated_at)
+TRANSACOES_PONTOS(id, usuario_id, pedido_id, valor, tipo, descricao, created_at)
+
+Regras principais:
+- 1 ponto a cada R$ 1 pago no pedido.
+- 100 pontos permitem 1 giro na roleta.
+- Ao girar a roleta, 100 pontos são debitados.
+- Se o prêmio tiver desconto, um cupom é gerado para o usuário.
+- Cupom usado em pedido é marcado como resgatado.
+- Administrador pode cadastrar, editar e remover itens do menu.

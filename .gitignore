@@ -1,0 +1,6 @@
+.idea/
+Trabalho-desenvolvimento-web/node_modules/
+**/node_modules/
+.env
+.env.*
+*.log
