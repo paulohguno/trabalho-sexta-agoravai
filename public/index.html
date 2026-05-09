@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roda & Sabor</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="toast" class="toast hidden"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <strong>Roda<span>&</span>Sabor</strong>
+      <small>Dining Club Edition</small>
+    </div>
+    <nav>
+      <button data-view="home">Início</button>
+      <button data-view="login" class="guest-only">Login</button>
+      <button data-view="cadastro" class="guest-only">Cadastro</button>
+      <button data-view="dashboard" class="auth-only hidden">Painel</button>
+      <button data-view="admin" class="admin-only hidden">Admin</button>
+      <button id="logoutBtn" class="auth-only hidden">Sair</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="view active hero-grid">
+      <div class="card hero-card reveal">
+        <p class="eyebrow">Racing Taste Experience</p>
+        <h1>Ganhe descontos, acumule pontos e gire a roleta do sabor.</h1>
+        <p class="muted">Um restaurante gamificado com pedidos, pontos, cupons e roleta de descontos integrada ao banco de dados.</p>
+        <div class="actions">
+          <button class="primary" data-view="cadastro">Criar conta</button>
+          <button class="secondary" data-view="login">Entrar agora</button>
+        </div>
+      </div>
+      <div class="stats-stack reveal delay-1">
+        <div class="card stat"><span>Pontos por compra</span><strong>1 ponto a cada R$ 1</strong></div>
+        <div class="card stat"><span>Troca por giro</span><strong>100 pontos = 1 roleta</strong></div>
+        <div class="card stat"><span>Prêmio máximo</span><strong>25% OFF</strong></div>
+      </div>
+    </section>
+
+    <section id="login" class="view auth-layout">
+      <form id="loginForm" class="card form-card">
+        <p class="eyebrow">Acesso</p>
+        <h2>Entrar</h2>
+        <label>E-mail<input name="email" type="email" required placeholder="voce@email.com" /></label>
+        <label>Senha<input name="senha" type="password" required placeholder="Sua senha" /></label>
+        <button class="primary full">Entrar</button>
+      </form>
+    </section>
+
+    <section id="cadastro" class="view auth-layout">
+      <form id="cadastroForm" class="card form-card">
+        <p class="eyebrow">Acesso</p>
+        <h2>Criar conta</h2>
+        <label>Nome<input name="nome" required placeholder="Seu nome" /></label>
+        <label>E-mail<input name="email" type="email" required placeholder="voce@email.com" /></label>
+        <label>CPF<input name="cpf" placeholder="Opcional" /></label>
+        <label>Telefone<input name="telefone" placeholder="Opcional" /></label>
+        <label>Senha<input name="senha" type="password" required minlength="4" placeholder="Mínimo 4 caracteres" /></label>
+        <button class="primary full">Criar conta</button>
+      </form>
+    </section>
+
+    <section id="dashboard" class="view dashboard">
+      <div class="dashboard-header">
+        <div>
+          <p class="eyebrow">Área do cliente</p>
+          <h2 id="welcomeTitle">Olá!</h2>
+          <p class="muted">Monte seu pedido, ganhe pontos e troque por giros na roleta.</p>
+        </div>
+        <div class="card points-card">
+          <span>Pontos disponíveis</span>
+          <strong id="pointsValue">0</strong>
+          <div class="progress"><i id="pointsBar"></i></div>
+          <small id="pointsHint">Faltam 100 pontos para 1 giro.</small>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card wheel-card">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Gamificação</p>
+              <h3>Roleta do Sabor</h3>
+            </div>
+            <button id="openWheelBtn" class="primary">Girar roleta</button>
+          </div>
+          <div class="mini-wheel" id="miniWheel"></div>
+          <p class="muted">Cada giro custa 100 pontos. Os cupons ganhos aparecem na sua carteira.</p>
+        </div>
+
+        <div class="card coupons-card">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Carteira</p>
+              <h3>Meus cupons</h3>
+            </div>
+          </div>
+          <div id="couponsList" class="scroll-list empty">Nenhum cupom disponível.</div>
+        </div>
+      </div>
+
+      <div class="grid-2 order-area">
+        <div class="card">
+          <div class="section-title"><h3>Menu</h3></div>
+          <div id="menuList" class="menu-list"></div>
+        </div>
+        <div class="card cart-card">
+          <div class="section-title"><h3>Carrinho</h3></div>
+          <div id="cartList" class="cart-list empty">Nenhum item no carrinho.</div>
+          <label>Cupom
+            <select id="couponSelect"><option value="">Sem cupom</option></select>
+          </label>
+          <div class="total-row"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+          <button id="checkoutBtn" class="primary full">Finalizar pedido</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin" class="view dashboard">
+      <div class="dashboard-header">
+        <div>
+          <p class="eyebrow">Administração</p>
+          <h2>Gerenciar menu</h2>
+          <p class="muted">Cadastre novos itens para aparecerem no cardápio.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <form id="menuForm" class="card form-card">
+          <h3>Novo item</h3>
+          <label>Nome<input name="nome" required /></label>
+          <label>Categoria<input name="categoria" placeholder="Lanches" /></label>
+          <label>Preço<input name="preco" type="number" step="0.01" required /></label>
+          <label>URL da imagem<input name="url_imagem" /></label>
+          <label>Descrição<textarea name="descricao"></textarea></label>
+          <button class="primary full">Adicionar item</button>
+        </form>
+        <div class="card"><h3>Itens cadastrados</h3><div id="adminMenuList" class="scroll-list"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="wheelModal" class="modal hidden">
+    <div class="modal-content wheel-modal">
+      <button class="close" data-close="wheelModal">×</button>
+      <p class="eyebrow">Roda & Sabor</p>
+      <h2>Roleta de descontos</h2>
+      <div class="wheel-stage">
+        <div class="pointer"></div>
+        <div id="wheel" class="wheel"></div>
+      </div>
+      <button id="spinBtn" class="primary">Girar agora</button>
+      <div id="wheelResult" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <div id="checkoutModal" class="modal hidden">
+    <div class="modal-content checkout-modal">
+      <button class="close" data-close="checkoutModal">×</button>
+      <p class="eyebrow">Checkout</p>
+      <h2>Confirmar pedido</h2>
+      <div id="checkoutSummary"></div>
+      <label>Forma de pagamento
+        <select id="paymentMethod">
+          <option value="pix">PIX</option>
+          <option value="cartao_credito">Cartão de crédito</option>
+          <option value="dinheiro">Dinheiro</option>
+        </select>
+      </label>
+      <button id="confirmOrderBtn" class="primary full">Confirmar pagamento</button>
+    </div>
+  </div>
+
+  <div id="successModal" class="modal hidden">
+    <div class="modal-content success-modal">
+      <button class="close" data-close="successModal">×</button>
+      <div class="checkmark">✓</div>
+      <h2>Pedido confirmado!</h2>
+      <p id="successText" class="muted"></p>
+      <button class="primary full" data-close="successModal">Voltar ao painel</button>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
